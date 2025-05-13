@@ -81,7 +81,3 @@ This project consists of a separate backend server and a frontend development se
 
 3.  **Access the Application:**
     - Open your web browser and navigate to the URL provided by the `npm run dev` command (e.g., `http://localhost:3000`).
-
-## Project Structure (Example - Adjust as Needed)
-
-A brief overview of the common project structure this setup implies:
