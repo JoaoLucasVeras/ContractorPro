@@ -47,11 +47,6 @@ Before you begin, ensure you have the following installed:
       npm install
       cd ..
       ```
-      Or, if the client dependencies are managed from the root project directory:
-      ```bash
-      npm install # Run this in the project root directory
-      ```
-      _(Clarify based on your project structure which `npm install` is needed for the client part)_
 
 ## Running the Application
 
