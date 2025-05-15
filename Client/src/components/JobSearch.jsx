@@ -24,7 +24,7 @@ const JobSearch = () => {
 
   const handleJobClick = (job) => {
     setSelectedJob(job);
-    setSelectedContractor(null); // Reset selected contractor when a new job is clicked
+    setSelectedContractor(null); 
     fetchContractors(job._id);
   };
 
@@ -32,8 +32,6 @@ const JobSearch = () => {
     setSelectedContractor(contractor);
   };
 
-  // Assuming jobData is an object where keys are categories
-  // and values are arrays of job objects
   const categories = Object.keys(jobData);
 
   return (
@@ -48,9 +46,9 @@ const JobSearch = () => {
         value={selectedCategory}
         onChange={(e) => {
           setSelectedCategory(e.target.value);
-          setSelectedJob(null); // Reset selected job when category changes
-          setContractors([]); // Clear contractors list
-          setSelectedContractor(null); // Clear selected contractor
+          setSelectedJob(null); 
+          setContractors([]); 
+          setSelectedContractor(null); 
         }}
       >
         <option value="">Select Category</option>
@@ -65,7 +63,7 @@ const JobSearch = () => {
         <ul className="space-y-2 mb-4">
           {jobData[selectedCategory].map((job, idx) => (
             <li
-              key={job._id || idx} // Use job._id if available, otherwise fallback to idx
+              key={job._id || idx} 
               onClick={() => handleJobClick(job)}
               className={`p-3 rounded cursor-pointer transition ${
                 selectedJob && selectedJob._id === job._id
@@ -88,25 +86,23 @@ const JobSearch = () => {
           {contractors.length === 0 ? (
             <p className="text-sm text-gray-600">No contractors found for this job type.</p>
           ) : (
-            <ul className="space-y-3"> {/* Increased space-y for better separation */}
+            <ul className="space-y-3"> 
               {contractors.map((contractor) => (
                 <li
                   key={contractor._id}
                   onClick={() => handleContractorClick(contractor)}
-                  className={`p-4 rounded-lg cursor-pointer transition border ${ // Increased padding, added border
+                  className={`p-4 rounded-lg cursor-pointer transition border ${ 
                     selectedContractor && selectedContractor._id === contractor._id
-                      ? "bg-blue-100 border-blue-400 shadow-md" // Enhanced selected style
-                      : "bg-white border-gray-300 hover:bg-gray-50 hover:shadow-sm" // Default card-like style
+                      ? "bg-blue-100 border-blue-400 shadow-md" 
+                      : "bg-white border-gray-300 hover:bg-gray-50 hover:shadow-sm" 
                   }`}
                 >
-                  <p className="font-semibold text-lg text-blue-700"> {/* Made name slightly larger and colored */}
+                  <p className="font-semibold text-lg text-blue-700"> 
                     {contractor.firstName} {contractor.lastName}
                   </p>
                   {contractor.organizationName && (
                     <p className="text-sm text-gray-600">{contractor.organizationName}</p>
                   )}
-                  {/* The specialization field might be undefined if not in your data */}
-                  {/* Ensure your contractor objects actually have a 'specialization' field */}
                   {contractor.specialization && (
                      <p className="text-sm text-indigo-600">{contractor.specialization}</p>
                   )}
@@ -126,7 +122,6 @@ const JobSearch = () => {
         </div>
       )}
 
-      {/* Show Contractor Profile */}
       {selectedContractor && (
         <div className="mt-8">
           <ContractorProfile contractor={selectedContractor} />

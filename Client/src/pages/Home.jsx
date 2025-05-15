@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-// Define a placeholder image URL for contractors without a photo
-// Updated to use dummyimage.com which is generally reliable
 const DEFAULT_PLACEHOLDER_IMAGE = "https://dummyimage.com/150x150/cccccc/000000.png&text=No+Image";
 
 export default function Home() {
@@ -161,16 +159,10 @@ export default function Home() {
           {/* Call to Action Buttons */}
           <div className="space-y-4 mt-6">
             <a
-              href="/register"
-              className="block w-full text-center bg-blue-600 text-white text-md px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition duration-200"
-            >
-              Register as a Contractor
-            </a>
-            <a
               href="/register" 
-              className="block w-full text-center bg-green-500 text-white text-md px-6 py-3 rounded-lg shadow-md hover:bg-green-600 transition duration-200"
+              className="block w-full text-center bg-orange-500 text-white text-md px-6 py-3 rounded-lg shadow-md hover:bg-green-600 transition duration-200"
             >
-              Sign Up to Find Contractors
+              Sign Up to Join Today!
             </a>
           </div>
         </div>

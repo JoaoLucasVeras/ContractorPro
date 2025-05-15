@@ -86,7 +86,7 @@ const ViewMyContractors = () => {
     <div className="max-w-6xl mx-auto p-4 sm:p-6 bg-gray-50 rounded-lg shadow-lg mt-8 min-h-screen">
       <h2 className="text-3xl font-semibold mb-6 text-blue-700 text-center">My Registered Contractors</h2>
       {contractors.length === 0 && !loading ? (
-        <p className="text-center text-gray-600">No contractors registered yet. <a href="/register-contractor" className="text-blue-500 hover:underline">Register one now!</a></p>
+        <p className="text-center text-gray-600">No contractors registered yet. <a href="/registerContractor" className="text-blue-500 hover:underline">Register one now!</a></p>
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full table-auto border-collapse border border-gray-300 shadow-sm">

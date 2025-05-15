@@ -99,7 +99,6 @@ const ContractorProfile = ({ contractor }) => {
         </div>
       )}
 
-      {/* Contractor Ratings Section */}
       <div className="mt-8">
         <h3 className="text-lg font-semibold mb-3">User Ratings</h3>
         {ratings.length === 0 ? (

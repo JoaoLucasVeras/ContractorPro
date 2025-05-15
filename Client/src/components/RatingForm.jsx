@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
 
 const RatingForm = () => {
-  const [allContractors, setAllContractors] = useState([]); // Stores all fetched contractors
-  const [searchTerm, setSearchTerm] = useState(""); // For the search input
-  const [filteredContractors, setFilteredContractors] = useState([]); // Contractors matching search
+  const [allContractors, setAllContractors] = useState([]); 
+  const [searchTerm, setSearchTerm] = useState(""); 
+  const [filteredContractors, setFilteredContractors] = useState([]); 
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const [selectedContractorId, setSelectedContractorId] = useState("");
-  const [rating, setRating] = useState(0); // Initialize with 0 or a default valid rating if preferred
+  const [rating, setRating] = useState(0); 
   const [comment, setComment] = useState("");
   const [userId, setUserId] = useState("");
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
 
-  // Get userId from localStorage on mount
   useEffect(() => {
     const storedUserId = localStorage.getItem("userId");
     if (storedUserId) {
@@ -21,7 +20,6 @@ const RatingForm = () => {
     }
   }, []);
 
-  // Fetch all contractors on mount
   useEffect(() => {
     fetch("http://localhost:5050/contractors")
       .then((res) => {
@@ -40,7 +38,7 @@ const RatingForm = () => {
   const handleSearchChange = (e) => {
     const currentSearchTerm = e.target.value;
     setSearchTerm(currentSearchTerm);
-    setSelectedContractorId(""); // Clear selection if user types again
+    setSelectedContractorId(""); 
 
     if (currentSearchTerm.trim() === "") {
       setFilteredContractors([]);
@@ -64,8 +62,8 @@ const RatingForm = () => {
   const handleContractorSelect = (contractor) => {
     setSelectedContractorId(contractor._id);
     setSearchTerm(`${contractor.firstName} ${contractor.lastName}${contractor.organizationName ? ` (${contractor.organizationName})` : ''}`);
-    setFilteredContractors([]); // Clear the suggestions list
-    setShowSuggestions(false); // Hide suggestions
+    setFilteredContractors([]); 
+    setShowSuggestions(false); 
   };
 
   const handleSubmit = async (e) => {
@@ -97,17 +95,17 @@ const RatingForm = () => {
         body: JSON.stringify({
           userId,
           contractorId: selectedContractorId,
-          rating: Number(rating), // Ensure rating is a number
+          rating: Number(rating), 
           comment,
         }),
       });
 
       if (res.ok) {
         setSuccess(true);
-        setRating(0); // Reset rating
+        setRating(0); 
         setComment("");
-        setSearchTerm(""); // Clear search term
-        setSelectedContractorId(""); // Clear selected contractor
+        setSearchTerm(""); 
+        setSelectedContractorId(""); 
       } else {
         const errData = await res.json().catch(() => ({ message: "An unknown error occurred." }));
         throw new Error(errData.message || `Server responded with ${res.status}`);
@@ -122,7 +120,6 @@ const RatingForm = () => {
     <div className="bg-white rounded-lg shadow p-6 w-full max-w-xl mx-auto">
       <h2 className="text-xl font-semibold mb-6 text-center text-blue-600">Rate a Contractor</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Contractor Search Input */}
         <div className="relative">
           <label htmlFor="contractorSearch" className="block text-sm font-medium mb-1 text-gray-700">
             Search and Select Contractor
@@ -133,7 +130,6 @@ const RatingForm = () => {
             value={searchTerm}
             onChange={handleSearchChange}
             onFocus={() => { if (searchTerm) setShowSuggestions(true);}}
-            // onBlur={() => setTimeout(() => setShowSuggestions(false), 150)} // Delay hiding to allow click
             placeholder="Type contractor name or organization..."
             className="w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:ring-blue-500 focus:border-blue-500"
           />
@@ -160,7 +156,6 @@ const RatingForm = () => {
           )}
         </div>
 
-        {/* Rating Input */}
         <div>
           <label htmlFor="rating" className="block text-sm font-medium mb-1 text-gray-700">
             Rating (1 to 5)
@@ -170,15 +165,14 @@ const RatingForm = () => {
             type="number"
             min="1"
             max="5"
-            step="1" // Ensure whole numbers if desired
-            value={rating === 0 ? "" : rating} // Show placeholder if rating is 0
+            step="1" 
+            value={rating === 0 ? "" : rating} 
             onChange={(e) => setRating(e.target.value === "" ? 0 : parseInt(e.target.value))}
             className="w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:ring-blue-500 focus:border-blue-500"
             required
           />
         </div>
 
-        {/* Comment Input */}
         <div>
           <label htmlFor="comment" className="block text-sm font-medium mb-1 text-gray-700">Comment (Optional)</label>
           <textarea
@@ -191,7 +185,6 @@ const RatingForm = () => {
           ></textarea>
         </div>
 
-        {/* Messages */}
         {error && <p className="text-red-600 text-sm bg-red-50 p-3 rounded-md">{error}</p>}
         {success && (
           <p className="text-green-600 text-sm bg-green-50 p-3 rounded-md">
@@ -199,7 +192,6 @@ const RatingForm = () => {
           </p>
         )}
 
-        {/* Submit Button */}
         <button
           type="submit"
           className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition-colors shadow-sm hover:shadow-md"

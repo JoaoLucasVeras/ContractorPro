@@ -8,7 +8,7 @@ const EditContractorForm = ({ contractor, onSave, onCancel }) => {
     phone: "",
     email: "",
     photo: "",
-    jobTypes: [], // Will be initialized with string IDs
+    jobTypes: [],
   });
 
   const [jobCategoriesData, setJobCategoriesData] = useState({});
@@ -16,7 +16,6 @@ const EditContractorForm = ({ contractor, onSave, onCancel }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Effect to fetch all available job types for selection
   useEffect(() => {
     const fetchJobTypes = async () => {
       setLoading(true);
@@ -29,7 +28,6 @@ const EditContractorForm = ({ contractor, onSave, onCancel }) => {
         const validData = {};
         for (const category in groupedData) {
           if (Object.prototype.hasOwnProperty.call(groupedData, category) && Array.isArray(groupedData[category])) {
-            // Ensure each job has a string _id for consistency in selection logic
             validData[category] = groupedData[category].filter(job => job && job._id && job.jobName).map(job => ({
               ...job,
               _id: typeof job._id === 'object' && job._id.$oid ? job._id.$oid : String(job._id)
@@ -48,27 +46,25 @@ const EditContractorForm = ({ contractor, onSave, onCancel }) => {
     fetchJobTypes();
   }, []);
 
-  // Effect to initialize/update formData when the contractor prop changes
   useEffect(() => {
     let initialJobTypeIds = [];
     if (contractor && contractor.jobTypes && Array.isArray(contractor.jobTypes)) {
       initialJobTypeIds = contractor.jobTypes.map(jt => {
         if (typeof jt === 'string') {
-          return jt; // Already an ID string
+          return jt;
         }
         if (jt && typeof jt === 'object' && jt.$oid) {
-          return jt.$oid; // It's a MongoDB ObjectId like { $oid: "..." }
+          return jt.$oid; 
         }
-        // If contractor.jobTypes contains full job objects with an _id property
         if (jt && typeof jt === 'object' && jt._id) {
           if (typeof jt._id === 'object' && jt._id.$oid) {
-            return jt._id.$oid; // _id is an ObjectId object
+            return jt._id.$oid; 
           }
-          return String(jt._id); // _id is a string or can be converted
+          return String(jt._id);
         }
         console.warn("Unknown jobType format in contractor data:", jt);
-        return null; // Or handle unexpected format as needed
-      }).filter(id => id !== null); // Filter out any nulls from unhandled formats
+        return null; 
+      }).filter(id => id !== null);
     }
 
     setFormData({
@@ -78,7 +74,7 @@ const EditContractorForm = ({ contractor, onSave, onCancel }) => {
       phone: contractor?.phone || "",
       email: contractor?.email || "",
       photo: contractor?.photo || "",
-      jobTypes: initialJobTypeIds, // Use the extracted array of ID strings
+      jobTypes: initialJobTypeIds, 
     });
   }, [contractor]);
 
@@ -88,16 +84,16 @@ const EditContractorForm = ({ contractor, onSave, onCancel }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const toggleJobSelection = (job) => { // job object is passed, job._id is a string ID
+  const toggleJobSelection = (job) => { 
     setFormData((prev) => {
-      const currentJobTypes = [...prev.jobTypes]; // Array of selected string IDs
+      const currentJobTypes = [...prev.jobTypes]; 
       const jobId = job._id; 
       const index = currentJobTypes.indexOf(jobId);
 
       if (index > -1) {
-        currentJobTypes.splice(index, 1); // Remove ID
+        currentJobTypes.splice(index, 1); 
       } else {
-        currentJobTypes.push(jobId); // Add ID
+        currentJobTypes.push(jobId); 
       }
       return { ...prev, jobTypes: currentJobTypes };
     });
@@ -123,7 +119,7 @@ const EditContractorForm = ({ contractor, onSave, onCancel }) => {
         throw new Error(errData.message);
       }
       const updatedContractor = await res.json();
-      onSave(updatedContractor); // Notify parent with the updated contractor
+      onSave(updatedContractor); 
     } catch (err) {
       console.error("Update error:", err);
       alert(`Update failed: ${err.message}`);
@@ -184,7 +180,6 @@ const EditContractorForm = ({ contractor, onSave, onCancel }) => {
         />
       </div>
 
-      {/* Job Types Selection */}
       <div>
         <label className="block text-lg font-medium mb-3 text-gray-800">
           Update Job Types:
@@ -213,7 +208,6 @@ const EditContractorForm = ({ contractor, onSave, onCancel }) => {
                   {openCategories[category] && (
                     <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                       {jobsInCategory.map((job) => {
-                        // job._id here is now consistently a string ID
                         const isSelected = formData.jobTypes.includes(job._id);
                         return (
                           <div

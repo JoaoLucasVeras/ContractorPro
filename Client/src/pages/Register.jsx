@@ -29,7 +29,6 @@ export default function Register() {
         body: JSON.stringify(formData),
       });
 
-      // In handleSubmit
       if (response.ok) {
         alert("User registered successfully!");
         setFormData({
